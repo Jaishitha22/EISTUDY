@@ -1,0 +1,13 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+class Fan {
+   Fan() {
+   }
+
+   public void on() {
+      System.out.println("The fan is on.");
+   }
+
+   public void off() {
+      System.out.println("The fan is off.");
+   }
+}
