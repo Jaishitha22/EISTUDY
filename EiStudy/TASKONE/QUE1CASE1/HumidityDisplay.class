@@ -1,0 +1,9 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+class HumidityDisplay implements Observer {
+   HumidityDisplay() {
+   }
+
+   public void update(float var1, float var2, float var3) {
+      System.out.println("Humidity updated: " + var2 + "%");
+   }
+}
