@@ -1,0 +1,180 @@
+Exercise 1: Problem Statement on Design patterns
+ Come up creatively with six different use cases to demonstrate your understanding of the following software design patterns by coding the same. 
+1.	Two use cases to demonstrate two behavioural design pattern.
+CASE 1:
+Use Case:
+The goal is to control various smart home devices (like lights and fans) through a weather station interface. When certain environmental conditions (like temperature and humidity) change, these changes should automatically trigger updates to any registered devices or displays in the system. The Observer Pattern helps to achieve this by ensuring that all relevant devices are updated whenever there is a change in the weather station data, without tight coupling between the weather station and the devices.
+Code Explanation:
+1.	Observer Interface:
+The Observer interface defines a method update() that takes parameters like temperature, humidity, and pressure. Any class implementing this interface must provide a specific implementation of this method to respond to changes in weather conditions.
+2.	Subject Class (WeatherStation):
+The WeatherStation class is the subject that keeps track of its observers (in this case, devices like temperature or humidity displays). It provides methods to add or remove observers, and when its data (temperature, humidity, or pressure) is updated via setMeasurements(), it calls notifyObservers() to update all registered observers.
+3.	Concrete Observer Classes:
+Classes like TemperatureDisplay and HumidityDisplay implement the Observer interface and respond to updates in weather conditions. For example, TemperatureDisplay only prints the updated temperature, and HumidityDisplay prints the updated humidity. These classes react to changes broadcast by the WeatherStation.
+4.	notifyObservers() Method:
+This method loops through all the registered observers and calls their update() method. This ensures that whenever the weather station's measurements change, every observer (like a temperature or humidity display) is informed of the new data.
+5.	Client (Main Program):
+In the onequeuseone class, a WeatherStation object is created, and two displays (TemperatureDisplay and HumidityDisplay) are registered as observers. The weather station sets new measurements using setMeasurements(), which automatically triggers updates to all observers. This decouples the logic of the weather station from the displays, allowing for easy addition or removal of observers in the future.
+
+Case 2: 
+Use Case:
+In a smart home system, you need a way to control various devices (e.g., lights and fans) using a remote control. Each device can be turned on or off, and you want a system that allows you to easily add new devices or commands without modifying the remote control's logic. The Command Pattern provides a solution by decoupling the remote control (invoker) from the devices (receivers), enabling flexible and scalable device control.
+Code Explanation:
+1.	Command Interface:
+The Command interface defines a standard method, execute(), which every command (like turning on/off a device) must implement. This provides a unified way to trigger commands without worrying about device-specific operations.
+2.	Receiver Classes:
+The Light and Fan classes represent the devices controlled by the system. They contain methods such as on() and off() to perform their respective actions. These are the operations that the commands will trigger.
+3.	Concrete Command Classes:
+For each device action (e.g., turning on/off a light or fan), there are concrete command classes (LightOnCommand, FanOffCommand, etc.). These classes implement the Command interface and call the corresponding method (on() or off()) of the device they control when their execute() method is invoked.
+4.	Invoker Class:
+The RemoteControl class represents the invoker. It has a setCommand() method that assigns a command and a pressButton() method that executes the assigned command. This class doesn’t need to know the details of the device or action it controls, as it only deals with Command objects.
+5.	Client (Main Program):
+The CommandPatternDemo class demonstrates the use of the Command Pattern. It creates instances of devices (light and fan), assigns commands for turning them on and off, and uses the remote control to execute these commands. This shows how easily new commands can be added or modified without changing the remote control logic.
+2.	Two use cases to demonstrate two creational design pattern.
+CASE1:
+Use Case:
+This code demonstrates the Singleton Design Pattern. The goal is to ensure that only one instance of the DatabaseConnection class is ever created, no matter how many times the class is accessed. This is useful in cases where multiple objects accessing the same resource (like a database) should share the same instance to prevent multiple connections or conserve resources. The Singleton pattern guarantees that only one object of the DatabaseConnection class exists, with global access to it.
+
+Code Explanation:
+1.	Singleton Class (DatabaseConnection):
+The DatabaseConnection class contains a private static variable instance that holds the single instance of the class. The constructor is private, meaning that objects cannot be created from outside this class.
+2.	getInstance() Method:
+The getInstance() method is used to control access to the single instance of the class. It first checks if the instance is null. If it is, it creates a new DatabaseConnection object; otherwise, it returns the existing instance. This ensures that only one instance is ever created.
+3.	connect() Method:
+The connect() method simulates connecting to a database. Since the class follows the Singleton pattern, this method will always be called on the same instance, regardless of how many times getInstance() is called.
+4.	Client Class (quetwocaseone):
+In the main class, two variables connection1 and connection2 try to create new instances of DatabaseConnection by calling getInstance(). Both variables end up referring to the same instance, which is confirmed by printing a message indicating that both connections are the same.
+5.	Instance Check:
+The condition connection1 == connection2 checks if both references point to the same object in memory. Since the Singleton pattern ensures that only one instance is created, the check will pass, and the message "Both connections are the same instance" is printed.
+The Singleton pattern ensures that only one instance of the database connection is maintained, even if multiple requests for the connection are made.
+CASE2:
+Use Case:
+This code demonstrates the Factory Method Design Pattern, which is useful for creating objects without specifying the exact class of object that will be created. In this case, the goal is to create different shapes (like Circle and Rectangle) by using a factory that decides which specific shape to create at runtime. The Factory Method pattern ensures that the creation logic is encapsulated in dedicated factory classes, which helps maintain flexibility and scalability when adding new shapes in the future.
+Explanation:
+1.	Shape Interface:
+The Shape interface defines a common method draw() for all shapes. Any class implementing Shape will need to provide its own implementation of the draw() method, ensuring consistency for drawing shapes.
+2.	Concrete Shape Classes:
+The Circle and Rectangle classes are specific implementations of the Shape interface. They both override the draw() method to provide shape-specific behavior: drawing a circle or a rectangle.
+3.	ShapeFactory Abstract Class:
+The ShapeFactory class is an abstract class that declares the factory method createShape(). This method will be implemented by the subclasses to create different kinds of shapes. This abstraction allows the client to interact with the factory without worrying about which specific class of shape is being created.
+4.	Concrete Factories (CircleFactory and RectangleFactory):
+Each concrete factory class (CircleFactory and RectangleFactory) extends the ShapeFactory and provides an implementation of the createShape() method. Each factory is responsible for creating a specific shape (either a Circle or a Rectangle). This encapsulates the object creation logic for each shape.
+5.	Client Class (quetwocasetwo):
+In the client class, two different factory objects are created: CircleFactory and RectangleFactory. The client calls the createShape() method on each factory, which creates a Circle and a Rectangle, respectively. These objects are then drawn by calling their draw() method.
+By using the Factory Method Pattern, the client code is decoupled from the concrete classes (Circle and Rectangle). This means that if a new shape needs to be added (like a Triangle), it can be done without modifying the client code—only a new factory needs to be introduced.
+3.	Two use cases to demonstrate two structural design pattern.
+CASE 1:
+Use Case:
+The code demonstrates the Adapter Pattern, a type of Structural Design Pattern. The goal here is to enable a media player (MediaPlayer) to support different media types (like mp3 and mp4) by using an adapter that allows incompatible interfaces to work together. In this case, the AudioPlayer natively supports only mp3 files, but through the adapter, it can also play mp4 video files by adapting the VideoPlayer class.
+This pattern is useful when you want to integrate existing functionality (like video playing) with a system that wasn’t originally designed to handle it (like an audio player). The adapter acts as a bridge between the two incompatible interfaces.
+Explanation:
+1.	Target Interface (MediaPlayer):
+The MediaPlayer interface declares the method play(), which is intended to be implemented by any media player that can play audio or video files.
+2.	Concrete Media Player Class (AudioPlayer):
+The AudioPlayer class implements MediaPlayer. It checks if the audio type is mp3 and plays the file if it's valid. If the media type is not mp3, it displays an error message. By default, AudioPlayer cannot handle any media type other than mp3.
+3.	Adaptee Interface (VideoPlayer):
+The VideoPlayer interface is meant for playing video files and provides the method playVideo(). This is incompatible with the MediaPlayer interface but can play video formats like mp4.
+4.	Concrete Video Player Class (AdvancedVideoPlayer):
+This class implements VideoPlayer and provides the functionality to play video files (specifically, mp4). It directly handles video playback but is incompatible with the MediaPlayer interface used by the AudioPlayer.
+5.	Adapter Class (VideoPlayerAdapter):
+The VideoPlayerAdapter implements the MediaPlayer interface and internally uses an AdvancedVideoPlayer instance to handle video playback. It bridges the gap between the MediaPlayer interface and the VideoPlayer interface. When the adapter is asked to play a mp4 file, it delegates the task to the AdvancedVideoPlayer’s playVideo() method.
+6.	Client Class (quethreecaseone):
+The client class demonstrates the usage of both the AudioPlayer and the VideoPlayerAdapter. First, it creates an AudioPlayer instance and tries to play an mp3 file, which succeeds. It then attempts to play an mp4 file, which fails. After that, it uses the VideoPlayerAdapter to successfully play an mp4 file, showing how the adapter enables video playback via the MediaPlayer interface.
+In this scenario, the Adapter Pattern is used to extend the capabilities of the MediaPlayer so it can handle different types of media (mp3, mp4), allowing the system to integrate new functionality without changing the existing code structure.
+CASE 2:
+Use Case:
+The code demonstrates the Decorator Pattern, which is a Structural Design Pattern. This pattern is utilized to add new functionality or behavior to existing objects without altering their structure. In this case, the code allows the addition of various ingredients (like milk, sugar, and whipped cream) to a basic coffee object, enhancing its functionality dynamically.
+This pattern is particularly useful in scenarios where you want to create a flexible and extensible design that supports varying combinations of features, such as customizing a coffee order without modifying the original Coffee class or creating multiple subclasses for each combination.
+Explanation:
+1.	Component Interface (Coffee):
+The Coffee interface defines the essential methods, getDescription() and cost(), that all concrete coffee components must implement. This allows both basic and decorated coffee objects to be treated uniformly.
+2.	Concrete Component Class (BasicCoffee):
+The BasicCoffee class implements the Coffee interface, providing a standard coffee description and its cost. It represents the simplest form of coffee without any additional ingredients.
+3.	Decorator Abstract Class (CoffeeDecorator):
+This class also implements the Coffee interface and acts as a base class for all decorators. It contains a reference to a Coffee object, allowing it to extend its functionality. The decorator class calls the methods of the original coffee object, making it possible to add new features while maintaining the core functionality.
+4.	Concrete Decorator Classes:
+o	MilkDecorator: This class extends the CoffeeDecorator and adds milk to the coffee. It overrides the getDescription() method to include "Milk" in the description and the cost() method to add the cost of milk to the original coffee price.
+o	SugarDecorator: Similar to the MilkDecorator, this class adds sugar to the coffee by appending "Sugar" to the description and incrementing the cost accordingly.
+o	WhippedCreamDecorator: This class adds whipped cream, again modifying the description and cost appropriately.
+5.	Client Class (quethreecasetwo):
+The client class demonstrates how to create a basic coffee object and progressively add ingredients to it using decorators.
+o	It first creates an instance of BasicCoffee and prints its description and cost.
+o	Then it adds milk using the MilkDecorator, updating the coffee description and cost.
+o	Next, it adds sugar using the SugarDecorator and updates the description and cost again.
+o	Finally, it adds whipped cream with the WhippedCreamDecorator, completing the customization of the coffee order.
+Conclusion:
+The Decorator Pattern is effectively illustrated here, allowing for flexible combinations of various coffee components without modifying the underlying classes. This promotes code reusability and adheres to the Open/Closed Principle by enabling new functionality (additional ingredients) to be added without changing existing code structures. It provides a clean and efficient way to manage multiple variations of an object (like different coffee orders) at runtime.
+4.	Smart Home System Programming Exercise: Problem Statement Create a simulation for a Smart Home System that allows the user to control different smart devices such as lights, thermostats, and door locks via a central hub. The user should be able to set schedules, automate tasks, and view the status of each device. Functional Requirements 1. Initialize the Smart Home System with different devices, each having their own unique ID and type (light, thermostat, door lock). 2. Implement features to: Turn devices on/off Schedule devices to turn on/off at a particular time Automate tasks based on triggers (e.g., turning off lights when the thermostat reaches a certain temperature) 3. Optional: Provide the ability to add or remove devices dynamically. Key Focus 1. Behavioral Pattern: Use the Observer Pattern to update all devices when a change occurs in the system. 2. Creational Pattern: Use the Factory Method for creating instances of different smart devices. 3. Structural Pattern: Use the Proxy Pattern to control access to the devices. 4. OOP: Ensure strong encapsulation, modularity, and the application of inheritance and polymorphism. Possible Inputs Devices: [{id: 1, type: 'light', status: 'off'}, {id: 2, type: 'thermostat', temperature: 70}, {id: 3, type: 'door', status: 'locked'}] Commands: ['turnOn(1)', 'setSchedule(2, "06:00", "Turn On")', 'addTrigger("temperature", ">", 75, "turnOff(1)")'] Possible Outputs Status Report: "Light 1 is On. Thermostat is set to 70 degrees. Door is Locked." Scheduled Tasks: "[{device: 2, time: "06:00", command: "Turn On"}]" Automated Triggers: "[{condition: "temperature > 75", action: "turnOff(1)"}]" Evaluation 1. Code Quality: Evaluation criteria remain consistent with best practices, SOLID principles, and effective use of design patterns. 2. Functionality: Does the solution meet all the requirements and handle edge cases gracefully? 3. Global Convention: Is the code globally understandable and well-documented? 4. Gold Standards: Is the code up to the gold standard in terms of logging, error handling, and performance optimization? 5. Code Walkthrough: Can the candidate explain their solution coherently, focusing on the architecture, design decisions, and patterns used? Intent of this Smart Home System exercise is to bring together elements of real-world applicability and technical depth..
+Use Case: Smart Home System Control and Automation
+Description
+The Smart Home System allows users to control various smart devices, such as lights, thermostats, and door locks, through a central hub. The user can turn devices on or off, set schedules for automatic operations, and create automated triggers based on specific conditions (e.g., temperature changes). This system enhances user convenience and energy efficiency by enabling remote control and automation of everyday home functions.
+Functional Requirements
+1.	Device Initialization: The system initializes with several smart devices, each having a unique ID and type (light, thermostat, door lock).
+2.	Device Control:
+o	Users can turn devices on or off.
+o	Users can view the status of each device.
+3.	Scheduling: Users can schedule devices to turn on or off at specific times.
+4.	Automation: Users can automate tasks based on triggers (e.g., turning off lights when the thermostat reaches a certain temperature).
+5.	Dynamic Device Management: Optionally, users can add or remove devices as needed.
+Code Breakdown
+1.	SmartDevice Abstract Class:
+o	Defines the common structure for all smart devices, ensuring each has a unique ID and a method to get its status.
+o	Methods:
+	getStatus(): Abstract method that must be implemented by derived classes to return the device's current status.
+2.	Concrete Smart Device Classes:
+o	Light Class:
+	Inherits from SmartDevice.
+	Contains a boolean isOn to track whether the light is active.
+	Methods:
+	turnOn(): Activates the light.
+	turnOff(): Deactivates the light.
+	getStatus(): Returns the light's status (on/off).
+o	Thermostat Class:
+	Inherits from SmartDevice.
+	Contains an integer temperature to hold the current temperature setting.
+	Methods:
+	setTemperature(int temperature): Sets the thermostat's desired temperature.
+	getStatus(): Returns the current temperature setting.
+o	DoorLock Class:
+	Inherits from SmartDevice.
+	Contains a boolean isLocked to indicate whether the door is locked or unlocked.
+	Methods:
+	lock(): Locks the door.
+	unlock(): Unlocks the door.
+	getStatus(): Returns the door's status (locked/unlocked).
+3.	SmartHomeSystem Class:
+o	Manages the collection of smart devices and their interactions.
+o	Attributes:
+	devices: A map storing all smart devices by their unique IDs.
+	schedules: A list to hold scheduled tasks for devices.
+	triggers: A list for automation triggers based on conditions.
+o	Methods:
+	initializeDevices(): Adds instances of Light, Thermostat, and DoorLock to the devices map.
+	turnOnDevice(String id): Activates a light by its ID.
+	turnOffDevice(String id): Deactivates a light by its ID.
+	setSchedule(String id, String time, String command): Records a schedule for a device, allowing it to activate or deactivate at a specific time (implementation only records the schedule, no real execution).
+	addTrigger(String condition, String action): Records a condition that triggers an action (e.g., turn off a light when temperature exceeds a threshold).
+	showStatus(): Iterates through the devices map to print the status of all devices.
+	triggerTemperature(int currentTemperature): Checks if the current temperature exceeds a threshold and triggers actions accordingly (e.g., turns off the light).
+4.	User Interaction (Main Class):
+o	The SmartHome class provides a console-based interface for user interaction.
+o	Menu Options:
+	Turn On Device: Prompts the user to enter a device ID and turns on the corresponding light.
+	Turn Off Device: Prompts for a device ID and turns off the corresponding light.
+	Set Schedule: Allows users to set a schedule for a device by entering the device ID, time, and command (turn on/off).
+	Add Trigger: Lets users specify conditions for automating tasks (e.g., temperature changes).
+	Show Status: Displays the current status of all devices.
+	Trigger Temperature: Simulates a temperature reading and triggers corresponding actions based on predefined conditions.
+	Exit: Exits the program.
+Example Interaction
+•	Initialization: Upon starting the system, three devices (Light 1, Thermostat 2, and DoorLock 3) are added to the system.
+•	Turning on a Device: The user selects the option to turn on a device and inputs "1". The system activates Light 1.
+•	Setting a Schedule: The user can schedule the thermostat to turn on at 6:00 AM by providing the ID, time, and command.
+•	Adding a Trigger: The user can set a condition to turn off Light 1 if the temperature exceeds 75 degrees.
+•	Showing Status: The user can view the current status of all devices, which will display whether each device is on, off, locked, or at a specific temperature.
+Conclusion
+The Smart Home System is a practical implementation of device control and automation, demonstrating the ability to manage smart devices effectively through user commands. The use of object-oriented programming principles ensures strong encapsulation and modularity, while the design allows for easy extensions and integrations of additional features, enhancing the overall smart home experience. The system is well-structured, making it easy to understand and modify as needed.
+
+
+
+
