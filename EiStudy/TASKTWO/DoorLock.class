@@ -1,0 +1,20 @@
+// Source code is decompiled from a .class file using FernFlower decompiler.
+class DoorLock extends SmartDevice {
+   private boolean isLocked = true;
+
+   public DoorLock(String var1) {
+      super(var1);
+   }
+
+   public void unlock() {
+      this.isLocked = false;
+   }
+
+   public void lock() {
+      this.isLocked = true;
+   }
+
+   public String getStatus() {
+      return "DoorLock " + this.id + (this.isLocked ? " is Locked" : " is Unlocked");
+   }
+}
